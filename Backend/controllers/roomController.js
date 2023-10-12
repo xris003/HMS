@@ -4,6 +4,28 @@ const rooms = JSON.parse(
   fs.readFileSync(`${__dirname}/../dev_data/data/rooms.json`)
 );
 
+exports.CheckNO = (req, res, next, val) => {
+  console.log(`Room No is: ${val}`);
+
+  if (req.params.no * 1 > rooms.length) {
+    return res.status(400).json({
+      status: "fail",
+      message: "Not Found",
+    });
+  }
+  next();
+};
+
+exports.CheckBody = (req, res, next) => {
+  if (!req.body.no || !req.body.name) {
+    return res.status(400).json({
+      status: "fail",
+      message: "Missing name or no",
+    });
+  }
+  next();
+};
+
 exports.getAllRooms = (req, res) => {
   res.status(200).json({
     status: "success",
@@ -39,13 +61,6 @@ exports.getRoom = (req, res) => {
   const no = req.params.no * 1;
   const room = rooms.find((el) => el.no === no);
 
-  if (!room) {
-    return res.status(404).json({
-      status: "fail",
-      message: "Invalid NO",
-    });
-  }
-
   res.status(200).json({
     status: "success",
     data: {
@@ -55,13 +70,6 @@ exports.getRoom = (req, res) => {
 };
 
 exports.updateRoom = (req, res) => {
-  if (req.params.no * 1 > rooms.length) {
-    return res.status(400).json({
-      status: "fail",
-      message: "Invalid",
-    });
-  }
-
   res.status(200).json({
     status: "success",
     data: {
@@ -71,13 +79,6 @@ exports.updateRoom = (req, res) => {
 };
 
 exports.deleteRoom = (req, res) => {
-  if (req.params.no * 1 > rooms.length) {
-    return res.status(400).json({
-      status: "fail",
-      message: "Not Found",
-    });
-  }
-
   res.status(204).json({
     status: "success",
     data: {
