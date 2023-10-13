@@ -3,12 +3,12 @@ const roomController = require("./../controllers/roomController");
 
 const router = express.Router();
 
-router.param("no", roomController.CheckNO);
+// router.param("no", roomController.CheckNO);
 
 router
   .route("/")
   .get(roomController.getAllRooms)
-  .post(roomController.CheckBody, roomController.createRoom);
+  .post(roomController.createRoom);
 router
   .route("/:no")
   .get(roomController.getRoom)
