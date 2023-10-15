@@ -28,20 +28,29 @@ const Room = require("./../models/roomModel");
 //   next();
 // };
 
-exports.getAllRooms = (req, res) => {
-  res.status(200).json({
-    status: "success",
-    // results: rooms.length,
-    // data: {
-    //   rooms,
-    // },
-  });
+exports.getAllRooms = async (req, res) => {
+  try {
+    const rooms = await Room.find();
+
+    res.status(200).json({
+      status: "success",
+      results: rooms.length,
+      data: {
+        rooms,
+      },
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "failed",
+      message: err,
+    });
+  }
 };
 
 exports.createRoom = async (req, res) => {
   try {
     const newRoom = await Room.create(req.body);
-
+    console.log(newRoom);
     res.status(201).json({
       status: "success",
       data: {
@@ -56,16 +65,22 @@ exports.createRoom = async (req, res) => {
   }
 };
 
-exports.getRoom = (req, res) => {
-  const no = req.params.no * 1;
-  const room = rooms.find((el) => el.no === no);
+exports.getRoom = async (req, res) => {
+  try {
+    const room = await Room.findById(req.params.id);
 
-  // res.status(200).json({
-  //   status: "success",
-  //   data: {
-  //     room,
-  //   },
-  //});
+    res.status(200).json({
+      status: "success",
+      data: {
+        room,
+      },
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "failed",
+      message: err,
+    });
+  }
 };
 
 exports.updateRoom = (req, res) => {
