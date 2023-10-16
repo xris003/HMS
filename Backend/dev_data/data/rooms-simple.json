@@ -1,0 +1,62 @@
+[
+    {
+        "no": 5,
+        "category": "Executive Suit",
+        "price": 65000,
+        "duration": 4,
+        "maxGroupSize": 6,
+        "ratingsAverage": 5.0,
+        "ratingsQuantity": 8,
+        "startDates": ["2023-12-20,08:00", "2023-12-24,08:00", "2023-12-29,10:00"]
+    },
+    {
+        "no": 6,
+        "category": "Executive Single",
+        "price": 25000,
+        "duration": 7,
+        "maxGroupSize": 1,
+        "ratingsAverage": 4.56,
+        "ratingsQuantity": 7,
+        "startDates": ["2023-12-20,08:00", "2023-12-24,08:00", "2023-12-29,10:00"]
+    },
+    {
+        "no": 7,
+        "category": "Executive Single",
+        "price": 25000,
+        "duration": 8,
+        "maxGroupSize": 1,
+        "ratingsAverage": 4.9,
+        "ratingsQuantity": 9,
+        "startDates": ["2023-12-20,08:00", "2023-12-24,08:00", "2023-12-29,10:00"]
+    },
+    {
+        "no": 8,
+        "category": "Executive Single",
+        "price": 25000,
+        "duration": 4,
+        "maxGroupSize": 1,
+        "ratingsAverage": 4.0,
+        "ratingsQuantity": 5,
+        "startDates": ["2023-11-20,08:00", "2023-11-24,08:00", "2023-11-29,10:00"]
+    },
+    {
+        "no": 9,
+        "category": "Executive Single",
+        "price": 25000,
+        "duration": 2,
+        "maxGroupSize": 1,
+        "ratingsAverage": 4.43,
+        "ratingsQuantity": 2,
+        "startDates": ["2023-12-20,08:00", "2023-12-24,08:00", "2023-12-29,10:00"]
+    },
+    {
+        "no": 10,
+        "category": "Executive Single",
+        "price": 25000,
+        "duration": 5,
+        "maxGroupSize": 1,
+        "ratingsAverage": 4.39,
+        "ratingsQuantity": 6,
+        "startDates": ["2023-12-20,08:00", "2023-12-24,08:00", "2023-12-29,10:00"]
+    }
+]
