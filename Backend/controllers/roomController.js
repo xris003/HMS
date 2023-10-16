@@ -30,6 +30,15 @@ const Room = require("./../models/roomModel");
 
 exports.getAllRooms = async (req, res) => {
   try {
+    // SORTING
+    // if (req.query.sort) {
+    //   const sortBy = req.query.sort.split(",").join(" ");
+    //   query = query.sort(sortBy);
+    // } else {
+    //   query = query.sort("-ratingsAverage");
+    // }
+
+    // const rooms = await query;
     const rooms = await Room.find();
 
     res.status(200).json({
