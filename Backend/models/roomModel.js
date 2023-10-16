@@ -14,10 +14,31 @@ const roomSchema = new mongoose.Schema({
     type: Number,
     required: [true, "A room must have a price"],
   },
-  rating: {
+  duration: {
     type: Number,
-    default: 1.0,
+    required: [true, "A room must have duration"],
   },
+  maxGroupSize: {
+    type: Number,
+    required: [true, "A room must have max size"],
+  },
+  ratingsAverage: {
+    type: Number,
+    default: 4.0,
+  },
+  ratingsQuantity: {
+    type: Number,
+    default: 0,
+  },
+  imageCover: {
+    type: String,
+    //required: [true, "A room must have a cover image"],
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
+  startDates: [Date],
 });
 
 const Room = mongoose.model("Room", roomSchema);

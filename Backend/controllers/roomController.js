@@ -67,7 +67,9 @@ exports.createRoom = async (req, res) => {
 
 exports.getRoom = async (req, res) => {
   try {
-    const room = await Room.findById(req.params.id);
+    //findById is uniquely only for finding using the _id from the database
+    //const room = await Room.findById(req.params.id);
+    const room = await Room.findOne({ no: req.params.no });
 
     res.status(200).json({
       status: "success",
@@ -83,20 +85,38 @@ exports.getRoom = async (req, res) => {
   }
 };
 
-exports.updateRoom = (req, res) => {
-  res.status(200).json({
-    status: "success",
-    data: {
-      room: "<Updated Room...>",
-    },
-  });
+exports.updateRoom = async (req, res) => {
+  try {
+    const room = await Room.findOneAndUpdate({ no: req.params.no }, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    res.status(200).json({
+      status: "success",
+      data: {
+        room,
+      },
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "failed",
+      message: err,
+    });
+  }
 };
 
-exports.deleteRoom = (req, res) => {
-  res.status(204).json({
-    status: "success",
-    data: {
-      room: null,
-    },
-  });
+exports.deleteRoom = async (req, res) => {
+  try {
+    await Room.findOneAndDelete({ no: req.params.no });
+
+    res.status(204).json({
+      status: "success",
+      data: null,
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "failed",
+      message: err,
+    });
+  }
 };

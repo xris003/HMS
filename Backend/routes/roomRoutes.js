@@ -10,7 +10,7 @@ router
   .get(roomController.getAllRooms)
   .post(roomController.createRoom);
 router
-  .route("/:id")
+  .route("/:no")
   .get(roomController.getRoom)
   .patch(roomController.updateRoom)
   .delete(roomController.deleteRoom);
