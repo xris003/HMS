@@ -6,6 +6,12 @@ const router = express.Router();
 // router.param("no", roomController.CheckNO);
 
 router
+  .route("/top-5-rooms")
+  .get(roomController.topRooms, roomController.getAllRooms);
+
+router.route("/monthly-plan/:month").get(roomController.getMonthlyPlan);
+
+router
   .route("/")
   .get(roomController.getAllRooms)
   .post(roomController.createRoom);
