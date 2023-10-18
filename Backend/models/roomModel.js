@@ -9,10 +9,24 @@ const roomSchema = new mongoose.Schema({
   category: {
     type: String,
     required: [true, "Must have a type"],
+    enum: {
+      values: ["Executive Single", "Executive Double", "Executive Suit"],
+      message:
+        "category is either: Executive Single, Executive Double, Executive Suit",
+    },
   },
   price: {
     type: Number,
     required: [true, "A room must have a price"],
+  },
+  priceDiscount: {
+    type: Number,
+    validate: {
+      validator: function (val) {
+        return val < this.price;
+      },
+      message: "Discount price ({VALUE}) should be below regular price",
+    },
   },
   duration: {
     type: Number,
@@ -25,6 +39,8 @@ const roomSchema = new mongoose.Schema({
   ratingsAverage: {
     type: Number,
     default: 4.0,
+    min: [1, "Rating must be above 1.0"],
+    max: [5, "Rating must be below 5.0"],
   },
   ratingsQuantity: {
     type: Number,

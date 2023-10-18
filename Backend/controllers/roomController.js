@@ -97,7 +97,20 @@ exports.getAllRooms = async (req, res) => {
   }
 };
 
-exports.createRoom = async (req, res) => {
+const catchAsync = (fn) => {
+  fn(req, res, next).catch((err) => next(err));
+};
+
+exports.createRoom = catchAsync(async (req, res) => {
+  //   const newRoom = await Room.create(req.body);
+  //   console.log(newRoom);
+  //   res.status(201).json({
+  //     status: "success",
+  //     data: {
+  //       room: newRoom,
+  //     },
+  //   });
+  // });
   try {
     const newRoom = await Room.create(req.body);
     console.log(newRoom);
@@ -113,7 +126,7 @@ exports.createRoom = async (req, res) => {
       message: err,
     });
   }
-};
+});
 
 exports.getRoom = async (req, res) => {
   try {
@@ -173,11 +186,19 @@ exports.deleteRoom = async (req, res) => {
 
 exports.getMonthlyPlan = async (req, res) => {
   try {
-    const month = req.params.year * 1;
+    const month = req.params.month * 1;
 
     const plan = await Room.aggregate([
       {
         $unwind: "$startDates",
+      },
+      {
+        $match: {
+          startDates: {
+            $gte: new Date(`2023-${month}-01`),
+            $lte: new Date(`2023-${month}-31`),
+          },
+        },
       },
     ]);
 

@@ -1,6 +1,8 @@
 const express = require("express");
 const morgan = require("morgan");
 
+const AppError = require("./utils/appError");
+const globalErrorHandler = require("./controllers/errorController");
 const roomRouter = require("./routes/roomRoutes");
 const userRouter = require("./routes/userRoutes");
 
@@ -24,13 +26,24 @@ app.use((req, res, next) => {
 });
 
 // 3) ROUTES
+// ALL ROOMS ROUTES
 app.use("/api/rooms", roomRouter);
+// ALL USERS ROUTES
 app.use("/api/users", userRouter);
 
-// app.get("/api/rooms", getAllRooms);
-// app.post("/api/rooms", createRoom);
-// app.get("/api/rooms/:no", getRoom);
-// app.patch("/api/rooms/:no", updateRoom);
-// app.delete("/api/rooms/:no", deleteRoom);
+// HANDLE ALL NON-EXISTING ROUTES
+app.all("*", (req, res, next) => {
+  // res.status(404).json({
+  //   status: "fail",
+  //   message: `Sorry can't find ${req.originalUrl} on this server`,
+  // });
+
+  // const err = new Error(`Sorry can't find ${req.originalUrl} on this server`);
+  // err.status = "fail";
+  // err.statusCode = 404;
+  next(new AppError(`Sorry can't find ${req.originalUrl} on this server`));
+});
+
+app.use(globalErrorHandler);
 
 module.exports = app;
