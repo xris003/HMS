@@ -69,7 +69,7 @@ exports.updateRoom = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.deleteRoom = catchAsync(async (req, res) => {
+exports.deleteRoom = catchAsync(async (req, res, next) => {
   const room = await Room.findOneAndDelete({ no: req.params.no });
 
   if (!room) {

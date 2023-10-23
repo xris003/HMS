@@ -20,6 +20,10 @@ router
   .route("/:no")
   .get(roomController.getRoom)
   .patch(roomController.updateRoom)
-  .delete(roomController.deleteRoom);
+  .delete(
+    authController.protect,
+    //authController.restrictTo('admin'),
+    roomController.deleteRoom
+  );
 
 module.exports = router;
