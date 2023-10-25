@@ -2,6 +2,7 @@ const AppError = require("../utils/appError");
 const Room = require("./../models/roomModel");
 const catchAsync = require("./../utils/catchAsync");
 
+// ---Developer's Challenge 👨‍💻 --- //
 exports.topRooms = (req, res, next) => {
   req.query.limit = "5";
   req.query.sort = "-ratingsAverage, price";
@@ -35,8 +36,6 @@ exports.createRoom = catchAsync(async (req, res, next) => {
 });
 
 exports.getRoom = catchAsync(async (req, res, next) => {
-  //findById is uniquely only for finding using the _id from the database
-  //const room = await Room.findById(req.params.id);
   const room = await Room.findOne({ no: req.params.no });
 
   if (!room) {
@@ -105,31 +104,3 @@ exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
     data: plan,
   });
 });
-
-// ---------INITIAL------------//
-// Importing local JSON file
-// const rooms = JSON.parse(
-//   fs.readFileSync(`${__dirname}/../dev_data/data/rooms.json`)
-// );
-
-// exports.CheckNO = (req, res, next, val) => {
-//   console.log(`Room No is: ${val}`);
-
-//   if (req.params.no * 1 > rooms.length) {
-//     return res.status(400).json({
-//       status: "fail",
-//       message: "Not Found",
-//     });
-//   }
-//   next();
-// };
-
-// exports.CheckBody = (req, res, next) => {
-//   if (!req.body.no || !req.body.name) {
-//     return res.status(400).json({
-//       status: "fail",
-//       message: "Missing name or no",
-//     });
-//   }
-//   next();
-// };
