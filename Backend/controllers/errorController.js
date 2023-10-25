@@ -5,6 +5,7 @@ const handleCastErrorDB = (err) => {
   return new AppError(message, 400);
 };
 
+// ---Developer's Challenge 👨‍💻 --- //
 const handleDuplicateFieldsDB = (err) => {
   const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
   console.log(value);
@@ -13,7 +14,6 @@ const handleDuplicateFieldsDB = (err) => {
   return new AppError(message, 400);
 };
 
-//Broken Error Handle --Try it out
 const handleValidationErrorDB = (err) => {
   const errors = Object.values(err.errors).map((el) => el.message);
 
@@ -69,7 +69,7 @@ module.exports = (err, req, res, next) => {
     let error = { ...err };
 
     if (error.name === "CastError") error = handleCastErrorDB(error);
-    // ---Fix the duplicate field error handle
+    // ---Developer's Challenge 👨‍💻 --- //
     if (error.code === 11000) error = handleDuplicateFieldsDB(error);
 
     if (err.name === "ValidationError") error = handleValidationErrorDB(error);
