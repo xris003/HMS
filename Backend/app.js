@@ -56,7 +56,7 @@ app.use("/api/rooms", roomRouter);
 // ALL USERS ROUTES
 app.use("/api/users", userRouter);
 // ALL REVIEWS
-app.use("/api/users", reviewRouter);
+app.use("/api/reviews", reviewRouter);
 
 // HANDLE ALL NON-EXISTING ROUTES
 app.all("*", (req, res, next) => {
