@@ -9,6 +9,7 @@ const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
 const roomRouter = require("./routes/roomRoutes");
 const userRouter = require("./routes/userRoutes");
+const reviewRouter = require("./routes/reviewRoutes");
 
 const app = express();
 
@@ -54,6 +55,8 @@ app.use((req, res, next) => {
 app.use("/api/rooms", roomRouter);
 // ALL USERS ROUTES
 app.use("/api/users", userRouter);
+// ALL REVIEWS
+app.use("/api/users", reviewRouter);
 
 // HANDLE ALL NON-EXISTING ROUTES
 app.all("*", (req, res, next) => {
