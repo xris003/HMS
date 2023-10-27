@@ -17,7 +17,7 @@ const reviewSchema = new mongoose.Schema(
     },
     room: {
       type: mongoose.Schema.ObjectId,
-      ref: "Tour",
+      ref: "Room",
       required: [true, "Review must belong to a tour."],
     },
     user: {
@@ -31,6 +31,21 @@ const reviewSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   }
 );
+
+reviewSchema.pre(/^find/, function (next) {
+  // this.populate({
+  //   path: "room",
+  //   select: "no",
+  // }).populate({
+  //   path: "user",
+  //   select: "name photo",
+  // });
+  this.populate({
+    path: "user",
+    select: "name photo",
+  });
+  next();
+});
 
 const Review = mongoose.model("Review", reviewSchema);
 

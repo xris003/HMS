@@ -36,7 +36,7 @@ exports.createRoom = catchAsync(async (req, res, next) => {
 });
 
 exports.getRoom = catchAsync(async (req, res, next) => {
-  const room = await Room.findOne({ no: req.params.no });
+  const room = await Room.findOne({ no: req.params.no }).populate("reviews");
 
   if (!room) {
     return next(new AppError("No room with that number", 404));
