@@ -1,6 +1,7 @@
 const AppError = require("../utils/appError");
 const Room = require("./../models/roomModel");
 const catchAsync = require("./../utils/catchAsync");
+const factory = require("./../controllers/handleFactory");
 
 // ---Developer's Challenge 👨‍💻 --- //
 exports.topRooms = (req, res, next) => {
@@ -68,18 +69,19 @@ exports.updateRoom = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.deleteRoom = catchAsync(async (req, res, next) => {
-  const room = await Room.findOneAndDelete({ no: req.params.no });
+exports.deleteRoom = factory.deleteOne(Room);
+// exports.deleteRoom = catchAsync(async (req, res, next) => {
+//   const room = await Room.findOneAndDelete({ no: req.params.no });
 
-  if (!room) {
-    return next(new AppError("No room with that number", 404));
-  }
+//   if (!room) {
+//     return next(new AppError("No room with that number", 404));
+//   }
 
-  res.status(204).json({
-    status: "success",
-    data: null,
-  });
-});
+//   res.status(204).json({
+//     status: "success",
+//     data: null,
+//   });
+// });
 
 exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
   const month = req.params.month * 1;
