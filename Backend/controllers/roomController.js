@@ -51,25 +51,27 @@ exports.getRoom = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.updateRoom = catchAsync(async (req, res, next) => {
-  const room = await Room.findOneAndUpdate({ no: req.params.no }, req.body, {
-    new: true,
-    runValidators: true,
-  });
-
-  if (!room) {
-    return next(new AppError("No room with that number", 404));
-  }
-
-  res.status(200).json({
-    status: "success",
-    data: {
-      room,
-    },
-  });
-});
-
+exports.updateRoom = factory.updateOne(Room);
 exports.deleteRoom = factory.deleteOne(Room);
+
+// exports.updateRoom = catchAsync(async (req, res, next) => {
+//   const room = await Room.findOneAndUpdate({ no: req.params.no }, req.body, {
+//     new: true,
+//     runValidators: true,
+//   });
+
+//   if (!room) {
+//     return next(new AppError("No room with that number", 404));
+//   }
+
+//   res.status(200).json({
+//     status: "success",
+//     data: {
+//       room,
+//     },
+//   });
+// });
+
 // exports.deleteRoom = catchAsync(async (req, res, next) => {
 //   const room = await Room.findOneAndDelete({ no: req.params.no });
 
