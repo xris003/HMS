@@ -1,6 +1,7 @@
 const AppError = require("../utils/appError");
 const User = require("./../models/userModel");
 const catchAsync = require("./../utils/catchAsync");
+const factory = require("./../controllers/handleFactory");
 
 const filterObj = (obj, ...allowedFileds) => {
   const newObj = {};
@@ -64,16 +65,12 @@ exports.createUser = (req, res) => {
   });
 };
 
-exports.updateUser = (req, res) => {
-  res.status(500).json({
-    status: "error",
-    message: "This is not yet available",
-  });
-};
+// exports.updateUser = (req, res) => {
+//   res.status(500).json({
+//     status: "error",
+//     message: "This is not yet available",
+//   });
+// };
 
-exports.deleteUser = (req, res) => {
-  res.status(500).json({
-    status: "error",
-    message: "This is not yet available",
-  });
-};
+exports.updateUser = factory.updateOne(User);
+exports.deleteUser = factory.deleteOne(User);
