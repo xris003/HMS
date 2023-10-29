@@ -11,30 +11,9 @@ exports.topRooms = (req, res, next) => {
   next();
 };
 
-exports.getAllRooms = catchAsync(async (req, res, next) => {
-  console.log(req.query);
+exports.getAllRooms = factory.getAll(Room);
 
-  const rooms = await Room.find();
-
-  res.status(200).json({
-    status: "success",
-    results: rooms.length,
-    data: {
-      rooms,
-    },
-  });
-});
-
-exports.createRoom = catchAsync(async (req, res, next) => {
-  const newRoom = await Room.create(req.body);
-  console.log(newRoom);
-  res.status(201).json({
-    status: "success",
-    data: {
-      room: newRoom,
-    },
-  });
-});
+exports.createRoom = factory.createOne(Room);
 
 exports.getRoom = catchAsync(async (req, res, next) => {
   const room = await Room.findOne({ no: req.params.no }).populate("reviews");

@@ -2,6 +2,7 @@ const AppError = require("../utils/appError");
 const User = require("./../models/userModel");
 const catchAsync = require("./../utils/catchAsync");
 const factory = require("./../controllers/handleFactory");
+const { findByIdAndDelete } = require("../models/reviewModel");
 
 const filterObj = (obj, ...allowedFileds) => {
   const newObj = {};
@@ -11,17 +12,10 @@ const filterObj = (obj, ...allowedFileds) => {
   return newObj;
 };
 
-exports.getAllUsers = catchAsync(async (req, res) => {
-  const users = await User.find();
-
-  res.status(200).json({
-    status: "success",
-    result: users.length,
-    data: {
-      users,
-    },
-  });
-});
+exports.getMe = (req, res, next) => {
+  req.params.id = req.user.id;
+  next();
+};
 
 exports.updateMe = catchAsync(async (req, res, next) => {
   // 1) Create erro if user POSTs password data
@@ -51,12 +45,16 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getUser = (req, res) => {
-  res.status(500).json({
-    status: "error",
-    message: "This is not yet available",
+exports.deleteMe = catchAsync(async (req, res, next) => {
+  await User.findByIdAndDelete(req.user.id);
+
+  res.status(204).json({
+    status: "success",
+    data: {
+      data: null,
+    },
   });
-};
+});
 
 exports.createUser = (req, res) => {
   res.status(500).json({
@@ -65,12 +63,8 @@ exports.createUser = (req, res) => {
   });
 };
 
-// exports.updateUser = (req, res) => {
-//   res.status(500).json({
-//     status: "error",
-//     message: "This is not yet available",
-//   });
-// };
-
+exports.getAllUsers = factory.getAll(User);
+exports.getUser = factory.getOne(User);
+// DO NOT UPDATE PASSWORD WITH THIS
 exports.updateUser = factory.updateOne(User);
 exports.deleteUser = factory.deleteOne(User);

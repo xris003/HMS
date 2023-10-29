@@ -13,16 +13,30 @@ router
   .route("/top-5-rooms")
   .get(roomController.topRooms, roomController.getAllRooms);
 
-router.route("/monthly-plan/:month").get(roomController.getMonthlyPlan);
+router
+  .route("/monthly-plan/:month")
+  .get(
+    authController.protect,
+    authController.restrictTo("admin", "manager", "supervisor"),
+    roomController.getMonthlyPlan
+  );
 
 router
   .route("/")
-  .get(authController.protect, roomController.getAllRooms)
-  .post(roomController.createRoom);
+  .get(roomController.getAllRooms)
+  .post(
+    authController.protect,
+    authController.restrictTo("admin", "manager"),
+    roomController.createRoom
+  );
 router
   .route("/:no")
   .get(roomController.getRoom)
-  .patch(roomController.updateRoom)
+  .patch(
+    authController.protect,
+    authController.restrictTo("admin", "manager"),
+    roomController.updateRoom
+  )
   .delete(
     authController.protect,
     authController.restrictTo("admin", "manager"),
