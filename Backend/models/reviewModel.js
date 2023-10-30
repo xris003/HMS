@@ -82,12 +82,15 @@ reviewSchema.post("save", function () {
 });
 
 reviewSchema.pre(/^findOneAnd/, async function (next) {
-  const r = await this.findOne();
+  const filter = this.getQuery();
+
+  // Find the document that matches the filter
+  this.r = await this.findOne(filter);
   console.log(this.r);
   next();
 });
 
-reviewSchema.pre(/^findOneAnd/, async function (next) {
+reviewSchema.post(/^findOneAnd/, async function () {
   await this.r.constructor.calcAverageRatings(this.r.room);
 });
 
