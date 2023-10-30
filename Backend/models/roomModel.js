@@ -63,6 +63,10 @@ const roomSchema = new mongoose.Schema(
   }
 );
 
+// Indexes
+// roomSchema.index({ category: xyz, maxGroupSize: 1 });
+roomSchema.index({ slug: 1 });
+
 // Virtual Populate
 roomSchema.virtual("reviews", {
   ref: "Review",

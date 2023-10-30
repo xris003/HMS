@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Room = require("./roomModel");
 
 const reviewSchema = new mongoose.Schema(
   {
@@ -45,6 +46,49 @@ reviewSchema.pre(/^find/, function (next) {
     select: "name photo",
   });
   next();
+});
+
+reviewSchema.statics.calcAverageRatings = async function (roomId) {
+  const stats = await this.aggregate([
+    {
+      $match: { room: roomId },
+    },
+    {
+      $group: {
+        _id: "$room",
+        nRating: { $sum: 1 },
+        avgRating: { $avg: "$rating" },
+      },
+    },
+  ]);
+  console.log(stats);
+
+  if (stats.length > 0) {
+    await Room.findByIdAndUpdate(roomId, {
+      ratingsQuantity: stats[0].nRating,
+      ratingsAverage: stats[0].avgRating,
+    });
+  } else {
+    await Room.findByIdAndUpdate(roomId, {
+      ratingsQuantity: 0,
+      ratingsAverage: 4.5,
+    });
+  }
+};
+
+reviewSchema.post("save", function () {
+  // this points to the current review
+  this.constructor.calcAverageRatings(this.room);
+});
+
+reviewSchema.pre(/^findOneAnd/, async function (next) {
+  const r = await this.findOne();
+  console.log(this.r);
+  next();
+});
+
+reviewSchema.pre(/^findOneAnd/, async function (next) {
+  await this.r.constructor.calcAverageRatings(this.r.room);
 });
 
 const Review = mongoose.model("Review", reviewSchema);
