@@ -19,7 +19,7 @@ const reviewSchema = new mongoose.Schema(
     room: {
       type: mongoose.Schema.ObjectId,
       ref: "Room",
-      required: [true, "Review must belong to a tour."],
+      required: [true, "Review must belong to a room."],
     },
     user: {
       type: mongoose.Schema.ObjectId,
@@ -82,17 +82,15 @@ reviewSchema.post("save", function () {
 });
 
 reviewSchema.pre(/^findOneAnd/, async function (next) {
-  const filter = this.getQuery();
-
-  // Find the document that matches the filter
-  this.r = await this.findOne(filter);
+  this.r = await this.findOne();
   console.log(this.r);
   next();
 });
 
-reviewSchema.post(/^findOneAnd/, async function () {
-  await this.r.constructor.calcAverageRatings(this.r.room);
-});
+// reviewSchema.post(/^findOneAnd/, async function () {
+//   // await this.findOne(); does NOT work here, query already executed
+//   await this.r.constructor.calcAverageRatings(this.r.room);
+// });
 
 const Review = mongoose.model("Review", reviewSchema);
 
