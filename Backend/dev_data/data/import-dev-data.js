@@ -22,6 +22,7 @@ mongoose
 // READ JSON FILE
 const rooms = JSON.parse(
   fs.readFileSync(`${__dirname}/rooms-simple.json`, "utf-8")
+  // fs.readFileSync(`${__dirname}/users.json`, "utf-8")
 );
 
 // IMPORT DATA INTO DB

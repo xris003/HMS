@@ -33,14 +33,9 @@ const reviewSchema = new mongoose.Schema(
   }
 );
 
+reviewSchema.index({ room: 1, user: 1 }, { unique: true });
+
 reviewSchema.pre(/^find/, function (next) {
-  // this.populate({
-  //   path: "room",
-  //   select: "no",
-  // }).populate({
-  //   path: "user",
-  //   select: "name photo",
-  // });
   this.populate({
     path: "user",
     select: "name photo",
@@ -81,16 +76,18 @@ reviewSchema.post("save", function () {
   this.constructor.calcAverageRatings(this.room);
 });
 
+// Middleware to store the original document
 reviewSchema.pre(/^findOneAnd/, async function (next) {
   this.r = await this.findOne();
-  console.log(this.r);
   next();
 });
 
-// reviewSchema.post(/^findOneAnd/, async function () {
-//   // await this.findOne(); does NOT work here, query already executed
-//   await this.r.constructor.calcAverageRatings(this.r.room);
-// });
+// Middleware to update the average ratings after findOneAnd... operation
+reviewSchema.post(/^findOneAnd/, async function () {
+  if (this.r) {
+    await this.r.constructor.calcAverageRatings(this.r.room);
+  }
+});
 
 const Review = mongoose.model("Review", reviewSchema);
 
