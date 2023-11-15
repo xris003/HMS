@@ -5,7 +5,7 @@ const handleCastErrorDB = (err) => {
   return new AppError(message, 400);
 };
 
-// ---Developer's Challenge 👨‍💻 --- //
+// ---Developer's Challenge 👨‍💻 ---(SOLVED) //
 const handleDuplicateFieldsDB = (err) => {
   const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
   console.log(value);
@@ -69,7 +69,7 @@ module.exports = (err, req, res, next) => {
     let error = { ...err };
 
     if (err.name === "CastError") err = handleCastErrorDB(err);
-    // ---Developer's Challenge 👨‍💻 --- //
+    // ---Developer's Challenge 👨‍💻 ---(SOLVED) //
     if (err.code === 11000) err = handleDuplicateFieldsDB(err);
 
     if (err.name === "ValidationError") error = handleValidationErrorDB(error);
