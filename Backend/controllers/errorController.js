@@ -68,9 +68,9 @@ module.exports = (err, req, res, next) => {
   } else if (process.env.NODE_ENV === "production") {
     let error = { ...err };
 
-    if (error.name === "CastError") error = handleCastErrorDB(error);
+    if (err.name === "CastError") err = handleCastErrorDB(err);
     // ---Developer's Challenge 👨‍💻 --- //
-    if (error.code === 11000) error = handleDuplicateFieldsDB(error);
+    if (err.code === 11000) err = handleDuplicateFieldsDB(err);
 
     if (err.name === "ValidationError") error = handleValidationErrorDB(error);
     if (err.name === "JsonWebTokenError") error = handleJWTError(error);
