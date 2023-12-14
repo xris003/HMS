@@ -96,7 +96,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   //-- Broken
   if (currentUser.changedPasswordAfter(decoded.iat)) {
     return next(
-      new AppError("User recently changed password! Please log in agsin", 401)
+      new AppError("User recently changed password! Please log in again", 401)
     );
   }
 
