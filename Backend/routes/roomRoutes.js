@@ -30,7 +30,7 @@ router
     roomController.createRoom
   );
 router
-  .route("/:no")
+  .route("/:id")
   .get(roomController.getRoom)
   .patch(
     authController.protect,

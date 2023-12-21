@@ -16,7 +16,7 @@ exports.getAllRooms = factory.getAll(Room);
 exports.createRoom = factory.createOne(Room);
 
 exports.getRoom = catchAsync(async (req, res, next) => {
-  const room = await Room.findOne({ no: req.params.no }).populate("reviews");
+  const room = await Room.findById(req.params.id).populate("reviews");
 
   if (!room) {
     return next(new AppError("No room with that number", 404));
@@ -34,7 +34,7 @@ exports.getRoom = catchAsync(async (req, res, next) => {
 // exports.deleteRoom = factory.deleteOne(Room);
 
 exports.updateRoom = catchAsync(async (req, res, next) => {
-  const room = await Room.findOneAndUpdate({ no: req.params.no }, req.body, {
+  const room = await Room.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
   });
