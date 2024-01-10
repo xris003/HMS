@@ -2,7 +2,6 @@ const AppError = require("../utils/appError");
 const User = require("./../models/userModel");
 const catchAsync = require("./../utils/catchAsync");
 const factory = require("./../controllers/handleFactory");
-const { findByIdAndDelete } = require("../models/reviewModel");
 
 const filterObj = (obj, ...allowedFileds) => {
   const newObj = {};
@@ -55,13 +54,6 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
     },
   });
 });
-
-exports.createUser = (req, res) => {
-  res.status(500).json({
-    status: "error",
-    message: "This is not yet available",
-  });
-};
 
 exports.getAllUsers = factory.getAll(User);
 exports.getUser = factory.getOne(User);
